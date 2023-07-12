@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agent List</title>
+    
+</head>
+<body>
+    <h1>Connected Agents:</h1>
+    <ul id="agent-list">
+    </ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+    <script>
+         // Connect to the Socket.IO server
+         const socket = io.connect('http://10.10.100.90:8088');
+
+         socket.on("connect", function() {
+             console.log("Connected to the server");
+         })
+             
+
+         socket.on('update_list_computers', function(data) {
+    var computers = data['computers'];
+    console.log("new update from server : ",computers);     
+    var agentList = document.getElementById('agent-list');
+    agentList.innerHTML = ''; // Clear the existing list items
+
+    computers.forEach(function(computer) {
+        var listItem = document.createElement('li');
+        listItem.textContent = computer;
+        agentList.appendChild(listItem);
+    });
+});
+    </script>
+</body>
+</html>
